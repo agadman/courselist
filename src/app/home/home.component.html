@@ -5,3 +5,30 @@
         <p>{{error()}}</p>
     </div>
 }
+
+@for(course of courses(); track course.code) {
+    <table>
+        <thead>
+          <tr>
+            <th>Kurskod</th>
+            <th>Kursnamn</th>
+            <th>Progression</th>
+            <th>Syllabus</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (course of courses(); track course.code) {
+            <tr>
+              <td>{{ course.code }}</td>
+              <td>{{ course.coursename }}</td>
+              <td>{{ course.progression }}</td>
+              <td>
+                <a href="{{ course.syllabus }}" target="_blank" rel="noopener noreferrer">
+                  Visa kursplan
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+}
