@@ -1,34 +1,36 @@
 <h2>Kurslista</h2>
 
-@if(error()) {
-    <div class="error">
-        <p>{{error()}}</p>
-    </div>
+@if (error()) {
+  <div class="error">
+    <p>{{ error() }}</p>
+  </div>
 }
-
-@for(course of courses(); track course.code) {
-    <table>
-        <thead>
-          <tr>
-            <th>Kurskod</th>
-            <th>Kursnamn</th>
-            <th>Progression</th>
-            <th>Syllabus</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (course of courses(); track course.code) {
-            <tr>
-              <td>{{ course.code }}</td>
-              <td>{{ course.coursename }}</td>
-              <td>{{ course.progression }}</td>
-              <td>
-                <a href="{{ course.syllabus }}" target="_blank" rel="noopener noreferrer">
-                  Visa kursplan
-                </a>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-}
+<div class="filter">
+    <input type="text" id="filter" [(ngModel)]="filterValue" placeholder="Sök kursnamn eller kod" />
+</div>
+<div class="course-table-container">
+  <table class="course-table">
+    <thead>
+      <tr>
+        <th>Kurskod</th>
+        <th>Kursnamn</th>
+        <th>Progression</th>
+        <th>Syllabus</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (course of filteredCourses(); track course.code) {
+        <tr>
+          <td>{{ course.code }}</td>
+          <td>{{ course.coursename }}</td>
+          <td>{{ course.progression }}</td>
+          <td>
+            <a href="{{ course.syllabus }}" target="_blank" rel="noopener noreferrer">
+              Visa kursplan
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
