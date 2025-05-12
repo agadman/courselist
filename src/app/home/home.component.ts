@@ -17,16 +17,46 @@ export class HomeComponent {
   filterValue = signal<string>(''); // Skapar en signal för sökfiltret
   coursesService = inject(CoursesService); // Hämtar en instans av CoursesService
 
-  // Returnerar en filtrerad lista av kurser baserat på sökvärdet
-  filteredCourses = computed(() =>
-    this.courses().filter(course => {
-      const query = this.filterValue().toLowerCase();
-      return (
-        course.code.toLowerCase().includes(query) ||
-        course.coursename.toLowerCase().includes(query)
-      );
-    })
-  );
+  sortField = signal<keyof Course | null>(null); // Signal som håller koll på vilket fält som sorteras
+  sortAscending = signal<boolean>(true); // Signal som håller koll på sorteringsriktningen
+  
+  // Filtrerar och sorterar kurslistan beroende på sökfält och vald sortering
+  filteredCourses = computed(() => {
+    const query = this.filterValue().toLowerCase(); // Söksträng från inputfältet
+    
+    //Filtrerar kurserna utefter söksträngen (kod eller namn)
+    const sorted = [...this.courses()].filter(course =>
+      course.code.toLowerCase().includes(query) ||
+      course.coursename.toLowerCase().includes(query)
+    );
+  
+    const field = this.sortField(); // Valt fält för sortering
+    const ascending = this.sortAscending(); // Sorteringsriktning
+  
+    // Sortering av kurserna
+    if (field) {
+      sorted.sort((a, b) => {
+        // Konverterar till små bokstäver för att jämföra strängarna med
+        const aVal = a[field]?.toLowerCase?.() ?? '';
+        const bVal = b[field]?.toLowerCase?.() ?? '';
+        return ascending
+          ? aVal.localeCompare(bVal) // Stigande
+          : bVal.localeCompare(aVal); // Fallande
+      });
+    }
+  
+    return sorted; // Returnerar den filtrerade och sorterade kurslistan
+  });
+  
+  // Metod för att hantera när en th klickas på (kod, namn eller progression)
+  setSort(field: keyof Course) {
+    if (this.sortField() === field) {
+      this.sortAscending.set(!this.sortAscending()); // Byt riktning (om samma fält klickas)
+    } else {
+      this.sortField.set(field); // Nytt th klickas på
+      this.sortAscending.set(true); // Börjar med stigande
+    }
+  }
 
   // Körs när komponenten laddas
   ngOnInit() {

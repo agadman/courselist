@@ -12,9 +12,9 @@
   <table class="course-table">
     <thead>
       <tr>
-        <th>Kurskod</th>
-        <th>Kursnamn</th>
-        <th>Progression</th>
+        <th class="sortable" (click)="setSort('code')">Kurskod</th>
+        <th class="sortable" (click)="setSort('coursename')">Kursnamn</th>
+        <th class="sortable" (click)="setSort('progression')">Progression</th>
         <th>Syllabus</th>
       </tr>
     </thead>

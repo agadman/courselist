@@ -13,6 +13,7 @@ https://webbutveckling.miun.se/files/ramschema.json
 
 Därefter visas kurserna i en tabell där användaren kan:
 	•	Söka/filtera kurser med en sökfras (kod eller namn)
+	•	Sortera på kurserna (kod, namn, progression)
 	•	Visa länk till varje kurs kursplan
 
 All uppdatering sker direkt i gränssnittet med Angulars databindning.
